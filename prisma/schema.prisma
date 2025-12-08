@@ -20,5 +20,19 @@ model User {
   email String @unique
   name String
   password String
-  
+
+  messagesSent  Message[] @relation("MessagesSent")
+  receivedMessage Message[] @relation("MessagesReceived")
+}
+
+model Message {
+  id Int @default(autoincrement()) @id
+  senderId Int
+  receiverId Int
+  content String
+
+    // Relations
+  sender  User @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
+
 }

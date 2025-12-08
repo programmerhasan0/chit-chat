@@ -42,3 +42,8 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
