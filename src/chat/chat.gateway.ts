@@ -1,4 +1,3 @@
-import { PrismaClient } from './../generated/prisma/internal/class';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -112,7 +111,7 @@ export class ChatGateway
 
     if (savedMessage.id) {
       // emit to sender
-      client.emit('message', savedMessage);
+      client.emit('message', message.content);
 
       // emit to the receiver if online
       const receiverSocketId = this.onlineUsers.get(message.receiverId);

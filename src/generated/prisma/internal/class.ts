@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
-  "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  email    String @unique\n  name     String\n  password String\n\n  messagesSent    Message[] @relation(\"MessagesSent\")\n  receivedMessage Message[] @relation(\"MessagesReceived\")\n}\n\nmodel Message {\n  id         Int    @id @default(autoincrement())\n  senderId   Int\n  receiverId Int\n  content    String\n\n  // Relations\n  sender   User @relation(\"MessagesSent\", fields: [senderId], references: [id])\n  receiver User @relation(\"MessagesReceived\", fields: [receiverId], references: [id])\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  email    String @unique\n  name     String\n  password String\n\n  messagesSent    Message[] @relation(\"MessagesSent\")\n  receivedMessage Message[] @relation(\"MessagesReceived\")\n}\n\nmodel Message {\n  id         Int    @id @default(autoincrement())\n  senderId   Int\n  receiverId Int\n  content    String\n\n  // Relations\n  sender   User @relation(\"MessagesSent\", fields: [senderId], references: [id])\n  receiver User @relation(\"MessagesReceived\", fields: [receiverId], references: [id])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,10 +37,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.sqlite.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.sqlite.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
   }
 }
