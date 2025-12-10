@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 
 export enum Role {
   STUDENT = 'student',
@@ -14,5 +14,6 @@ export class RegisterUserDto {
   @IsNotEmpty({ message: 'name is required' })
   name: string;
 
+  @IsEnum(Role)
   role: Role;
 }
