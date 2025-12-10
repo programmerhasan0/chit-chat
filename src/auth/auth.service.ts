@@ -30,11 +30,25 @@ export class AuthService {
       where: { email: userData.email },
     });
 
-    if (!user || !user.password) {
+    if (!user) {
       throw new BadRequestException();
     }
 
     if (user?.id) {
+      // checking if the user is verified or not
+      if (!user.isVerified) {
+        throw new BadRequestException(
+          'You are not verified! Please verify yourself',
+        );
+      }
+
+      // checking is the user created his password or not
+      if (!user.hasPassword || !user.password) {
+        throw new BadRequestException(
+          'You have not created your password. Please create first.',
+        );
+      }
+
       // verifying the password is correct or not
       const isPasswordMatch = await argon2.verify(
         user.password,
@@ -58,9 +72,11 @@ export class AuthService {
     }
   }
 
+  // TODO: getAll Route only for dev purposes. must be removed in prod.
+
   // service --> get all users (responsible for viewing all users)
   // route --> /auth/all
-  async getAll(): Promise<Omit<User, 'password'>[]> {
+  async getAll(): Promise<Omit<User, 'password' | 'hasPassword'>[]> {
     const users = await this.prisma.user.findMany({
       select: {
         id: true,

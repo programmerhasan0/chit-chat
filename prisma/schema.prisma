@@ -42,7 +42,8 @@ model User {
 
   // OTP verification
   otp             String?
-  otpExpire       String?
+  otpExpire       DateTime?
+  hasPassword     Boolean @default(false)
   isVerified      Boolean   @default(false)
 
   // Profile Fields
