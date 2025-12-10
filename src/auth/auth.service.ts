@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -9,7 +10,6 @@ import argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
-export type UserData = { name: string; email: string; password: string };
 export type LoginUserData = Omit<User, 'name' | 'id'>;
 
 console.log('logged process variables : ', process.env.JWT_SECRET);
@@ -21,24 +21,6 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  // service --> Register (responsible for user register)
-  // route --> /auth/register
-  async postRegister(userData: UserData): Promise<{ message: string }> {
-    console.log(userData);
-
-    const passwordHash = await argon2.hash(userData.password);
-
-    const newUser = await this.prisma.user.create({
-      data: { ...userData, password: passwordHash },
-    });
-
-    if (newUser.id) {
-      return { message: 'User created successfully' };
-    } else {
-      return { message: 'User creation failed' };
-    }
-  }
-
   // service --> Login (responsible for user login)
   //route --> /auth/login
   async postLogin(
@@ -48,11 +30,15 @@ export class AuthService {
       where: { email: userData.email },
     });
 
+    if (!user || !user.password) {
+      throw new BadRequestException();
+    }
+
     if (user?.id) {
       // verifying the password is correct or not
       const isPasswordMatch = await argon2.verify(
         user.password,
-        userData.password,
+        String(userData.password),
       );
 
       if (isPasswordMatch) {
@@ -76,7 +62,18 @@ export class AuthService {
   // route --> /auth/all
   async getAll(): Promise<Omit<User, 'password'>[]> {
     const users = await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        otp: true,
+        otpExpire: true,
+        isVerified: true,
+        gender: true,
+        dateOfBirth: true,
+        university: true,
+      },
     });
     return users;
   }

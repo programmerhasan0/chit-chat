@@ -75,7 +75,14 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
-  password: 'password'
+  role: 'role',
+  password: 'password',
+  otp: 'otp',
+  otpExpire: 'otpExpire',
+  isVerified: 'isVerified',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
+  university: 'university'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -105,4 +112,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

@@ -15,24 +15,53 @@ generator client {
   moduleFormat = "cjs"
 }
 
+// roles
+enum Role {
+  student     @map("student")
+  faculty     @map("faculty")
+  recruiter   @map("recruiter")
+  proPartner  @map("pro partner")
+}
+
+// gender
+enum Gender {
+  male    @map("male")
+  female  @map("female")
+  other   @map("other")
+}
+
+
+
 model User {
-  id  Int @default(autoincrement()) @id
-  email String @unique
-  name String
-  password String
+  id      Int @default(autoincrement()) @id
+  email   String @unique
+  name    String
+  role    Role      @default(student)
+
+  password String?
+
+  // OTP verification
+  otp             String?
+  otpExpire       String?
+  isVerified      Boolean   @default(false)
+
+  // Profile Fields
+  gender          Gender?
+  dateOfBirth     DateTime?
+  university      String?
 
   messagesSent  Message[] @relation("MessagesSent")
   receivedMessage Message[] @relation("MessagesReceived")
-}
+} 
 
 model Message {
-  id Int @default(autoincrement()) @id
-  senderId Int
-  receiverId Int
-  content String
+  id            Int @default(autoincrement()) @id
+  senderId      Int
+  receiverId    Int
+  content       String
 
     // Relations
-  sender  User @relation("MessagesSent", fields: [senderId], references: [id])
+  sender  User  @relation("MessagesSent", fields: [senderId], references: [id])
   receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
 
 }

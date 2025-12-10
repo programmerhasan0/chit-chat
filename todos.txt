@@ -1,0 +1,1 @@
+1. create a seperate module controller and service for registration related works which will contain RegisterWithEmail, VerifyOtp (O/P : With Rate Limiting)
