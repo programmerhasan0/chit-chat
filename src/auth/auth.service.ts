@@ -89,6 +89,7 @@ export class AuthService {
         gender: true,
         dateOfBirth: true,
         university: true,
+        lastOtpRequestedAt: true,
       },
     });
     return users;

@@ -42,6 +42,7 @@ export type UserMinAggregateOutputType = {
   password: string | null
   otp: string | null
   otpExpire: Date | null
+  lastOtpRequestedAt: Date | null
   hasPassword: boolean | null
   isVerified: boolean | null
   gender: $Enums.Gender | null
@@ -57,6 +58,7 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   otp: string | null
   otpExpire: Date | null
+  lastOtpRequestedAt: Date | null
   hasPassword: boolean | null
   isVerified: boolean | null
   gender: $Enums.Gender | null
@@ -72,6 +74,7 @@ export type UserCountAggregateOutputType = {
   password: number
   otp: number
   otpExpire: number
+  lastOtpRequestedAt: number
   hasPassword: number
   isVerified: number
   gender: number
@@ -97,6 +100,7 @@ export type UserMinAggregateInputType = {
   password?: true
   otp?: true
   otpExpire?: true
+  lastOtpRequestedAt?: true
   hasPassword?: true
   isVerified?: true
   gender?: true
@@ -112,6 +116,7 @@ export type UserMaxAggregateInputType = {
   password?: true
   otp?: true
   otpExpire?: true
+  lastOtpRequestedAt?: true
   hasPassword?: true
   isVerified?: true
   gender?: true
@@ -127,6 +132,7 @@ export type UserCountAggregateInputType = {
   password?: true
   otp?: true
   otpExpire?: true
+  lastOtpRequestedAt?: true
   hasPassword?: true
   isVerified?: true
   gender?: true
@@ -229,6 +235,7 @@ export type UserGroupByOutputType = {
   password: string | null
   otp: string | null
   otpExpire: Date | null
+  lastOtpRequestedAt: Date | null
   hasPassword: boolean
   isVerified: boolean
   gender: $Enums.Gender | null
@@ -267,6 +274,7 @@ export type UserWhereInput = {
   password?: Prisma.StringNullableFilter<"User"> | string | null
   otp?: Prisma.StringNullableFilter<"User"> | string | null
   otpExpire?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastOtpRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   hasPassword?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   gender?: Prisma.EnumGenderNullableFilter<"User"> | $Enums.Gender | null
@@ -284,6 +292,7 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   otp?: Prisma.SortOrderInput | Prisma.SortOrder
   otpExpire?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastOtpRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   hasPassword?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -304,6 +313,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringNullableFilter<"User"> | string | null
   otp?: Prisma.StringNullableFilter<"User"> | string | null
   otpExpire?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastOtpRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   hasPassword?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   gender?: Prisma.EnumGenderNullableFilter<"User"> | $Enums.Gender | null
@@ -321,6 +331,7 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   otp?: Prisma.SortOrderInput | Prisma.SortOrder
   otpExpire?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastOtpRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   hasPassword?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -344,6 +355,7 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   otp?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   otpExpire?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  lastOtpRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   hasPassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"User"> | $Enums.Gender | null
@@ -358,6 +370,7 @@ export type UserCreateInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -375,6 +388,7 @@ export type UserUncheckedCreateInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -391,6 +405,7 @@ export type UserUpdateInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -408,6 +423,7 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -425,6 +441,7 @@ export type UserCreateManyInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -439,6 +456,7 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -454,6 +472,7 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -469,6 +488,7 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   otp?: Prisma.SortOrder
   otpExpire?: Prisma.SortOrder
+  lastOtpRequestedAt?: Prisma.SortOrder
   hasPassword?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -488,6 +508,7 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   otp?: Prisma.SortOrder
   otpExpire?: Prisma.SortOrder
+  lastOtpRequestedAt?: Prisma.SortOrder
   hasPassword?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -503,6 +524,7 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   otp?: Prisma.SortOrder
   otpExpire?: Prisma.SortOrder
+  lastOtpRequestedAt?: Prisma.SortOrder
   hasPassword?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -586,6 +608,7 @@ export type UserCreateWithoutMessagesSentInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -602,6 +625,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -622,6 +646,7 @@ export type UserCreateWithoutReceivedMessageInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -638,6 +663,7 @@ export type UserUncheckedCreateWithoutReceivedMessageInput = {
   password?: string | null
   otp?: string | null
   otpExpire?: Date | string | null
+  lastOtpRequestedAt?: Date | string | null
   hasPassword?: boolean
   isVerified?: boolean
   gender?: $Enums.Gender | null
@@ -669,6 +695,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -685,6 +712,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -711,6 +739,7 @@ export type UserUpdateWithoutReceivedMessageInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -727,6 +756,7 @@ export type UserUncheckedUpdateWithoutReceivedMessageInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastOtpRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hasPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
@@ -783,6 +813,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   otp?: boolean
   otpExpire?: boolean
+  lastOtpRequestedAt?: boolean
   hasPassword?: boolean
   isVerified?: boolean
   gender?: boolean
@@ -801,6 +832,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   otp?: boolean
   otpExpire?: boolean
+  lastOtpRequestedAt?: boolean
   hasPassword?: boolean
   isVerified?: boolean
   gender?: boolean
@@ -816,6 +848,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   otp?: boolean
   otpExpire?: boolean
+  lastOtpRequestedAt?: boolean
   hasPassword?: boolean
   isVerified?: boolean
   gender?: boolean
@@ -831,6 +864,7 @@ export type UserSelectScalar = {
   password?: boolean
   otp?: boolean
   otpExpire?: boolean
+  lastOtpRequestedAt?: boolean
   hasPassword?: boolean
   isVerified?: boolean
   gender?: boolean
@@ -838,7 +872,7 @@ export type UserSelectScalar = {
   university?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "role" | "password" | "otp" | "otpExpire" | "hasPassword" | "isVerified" | "gender" | "dateOfBirth" | "university", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "role" | "password" | "otp" | "otpExpire" | "lastOtpRequestedAt" | "hasPassword" | "isVerified" | "gender" | "dateOfBirth" | "university", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
   receivedMessage?: boolean | Prisma.User$receivedMessageArgs<ExtArgs>
@@ -861,6 +895,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string | null
     otp: string | null
     otpExpire: Date | null
+    lastOtpRequestedAt: Date | null
     hasPassword: boolean
     isVerified: boolean
     gender: $Enums.Gender | null
@@ -1298,6 +1333,7 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly otp: Prisma.FieldRef<"User", 'String'>
   readonly otpExpire: Prisma.FieldRef<"User", 'DateTime'>
+  readonly lastOtpRequestedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly hasPassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly gender: Prisma.FieldRef<"User", 'Gender'>

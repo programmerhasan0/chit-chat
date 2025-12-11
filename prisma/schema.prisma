@@ -41,16 +41,17 @@ model User {
   password String?
 
   // OTP verification
-  otp             String?
-  otpExpire       DateTime?
-  hasPassword     Boolean @default(false)
-  isVerified      Boolean   @default(false)
+  otp                 String?
+  otpExpire           DateTime?
+  lastOtpRequestedAt  DateTime?
+  hasPassword         Boolean   @default(false)
+  isVerified          Boolean   @default(false)
 
   // Profile Fields
   gender          Gender?
   dateOfBirth     DateTime?
   university      String?
-
+  
   messagesSent  Message[] @relation("MessagesSent")
   receivedMessage Message[] @relation("MessagesReceived")
 } 
@@ -62,7 +63,7 @@ model Message {
   content       String
 
     // Relations
-  sender  User  @relation("MessagesSent", fields: [senderId], references: [id])
-  receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
+  sender    User  @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver  User  @relation("MessagesReceived", fields: [receiverId], references: [id])
 
 }
