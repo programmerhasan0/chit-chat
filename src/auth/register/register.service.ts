@@ -180,6 +180,6 @@ export class RegisterService {
             return { message: 'Password created! You can login now.' };
         }
 
-        return { message: 'hit on create password' };
+        throw new InternalServerErrorException();
     }
 }
