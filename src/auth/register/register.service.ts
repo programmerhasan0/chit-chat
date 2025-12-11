@@ -10,12 +10,14 @@ import {
     CreateOrChangePasswordDto,
     RegisterUserDto,
     ResendOtpDto,
+    UpdateProfileDto,
     VerifyOtpDto,
 } from 'src/dto/auth.dto';
 import { MailService } from 'src/common/mail/mail.service';
 import { OtpService } from 'src/common/otp/otp.service';
 import { isArgon2Hash } from 'src/helpers/argon2';
 import * as argon2 from 'argon2';
+import type { Request } from 'express';
 
 @Injectable()
 export class RegisterService {
@@ -153,7 +155,6 @@ export class RegisterService {
 
     // service --> create password (responsible for creating password upon successful registration and email verification)
     // route /auth/register/create-password
-    // TODO: a user should not access this route if his password is already created.
     async postCreatePassword(
         createPasswordDto: CreateOrChangePasswordDto,
     ): Promise<{ message }> {
@@ -178,6 +179,37 @@ export class RegisterService {
 
         if (updatedUser.id) {
             return { message: 'Password created! You can login now.' };
+        }
+
+        throw new InternalServerErrorException();
+    }
+
+    // service --> update profile (responsible for updating profile upon successful registion, verification and password creation.)
+    // route /auth/register/update-profile
+    // Note: users should be logged in before updating their profile.
+    async postUpdateProfile(
+        updateProfileDto: UpdateProfileDto,
+        req: Request,
+    ): Promise<{ message: string }> {
+        const user = await this.prisma.user.findUnique({
+            where: { id: req.user?.id },
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found. Please register');
+        }
+
+        const updatedUser = await this.prisma.user.update({
+            where: { id: user.id },
+            data: {
+                university: updateProfileDto.university,
+                gender: updateProfileDto.gender,
+                dateOfBirth: updateProfileDto.dob,
+            },
+        });
+
+        if (updatedUser.id) {
+            return { message: 'User updated.' };
         }
 
         throw new InternalServerErrorException();

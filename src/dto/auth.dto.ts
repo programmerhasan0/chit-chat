@@ -1,4 +1,6 @@
+import { Type } from 'class-transformer';
 import {
+    IsDate,
     IsEmail,
     IsEnum,
     IsNotEmpty,
@@ -9,13 +11,7 @@ import {
     MinLength,
 } from 'class-validator';
 import { Match } from 'src/common/decorators/match.decorator';
-
-export enum Role {
-    STUDENT = 'student',
-    FACULTY = 'faculty',
-    RECRUITER = 'recruiter',
-    PRO_PARTNER = 'pro partner',
-}
+import { Gender, Role } from 'src/generated/prisma/enums';
 
 // dto for user registration
 export class RegisterUserDto {
@@ -64,4 +60,18 @@ export class CreateOrChangePasswordDto {
     @IsString()
     @Match('password', { message: 'Passwords do not match.' })
     confirmPassword: string;
+}
+
+// dto for updating profile after creating password
+export class UpdateProfileDto {
+    @IsEnum(Gender)
+    gender: Gender;
+
+    @IsString()
+    @IsNotEmpty({ message: 'university must not be empty.' })
+    university: string;
+
+    @Type(() => Date)
+    @IsDate({ message: 'date must be valid date.' })
+    dob: Date;
 }

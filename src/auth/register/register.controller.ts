@@ -1,11 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { RegisterService } from './register.service';
 import {
     CreateOrChangePasswordDto,
     RegisterUserDto,
     ResendOtpDto,
+    UpdateProfileDto,
     VerifyOtpDto,
 } from 'src/dto/auth.dto';
+import { JwtAuthGuard } from '../guard/jwt-auth.guard';
+import type { Request } from 'express';
 
 @Controller('auth/register')
 export class RegisterController {
@@ -31,5 +34,17 @@ export class RegisterController {
         @Body() createPasswordDto: CreateOrChangePasswordDto,
     ) {
         return await this.registerService.postCreatePassword(createPasswordDto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('update-profile')
+    async postUpdateProfile(
+        @Body() updateProfileDto: UpdateProfileDto,
+        @Req() req: Request,
+    ) {
+        return await this.registerService.postUpdateProfile(
+            updateProfileDto,
+            req,
+        );
     }
 }

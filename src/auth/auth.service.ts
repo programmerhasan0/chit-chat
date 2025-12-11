@@ -12,8 +12,6 @@ import { Request } from 'express';
 
 export type LoginUserData = Omit<User, 'name' | 'id'>;
 
-console.log('logged process variables : ', process.env.JWT_SECRET);
-
 @Injectable()
 export class AuthService {
     constructor(

@@ -37,7 +37,6 @@ model User {
   email   String @unique
   name    String
   role    Role      @default(student)
-
   password String?
 
   // OTP verification
@@ -52,7 +51,8 @@ model User {
   dateOfBirth     DateTime?
   university      String?
   
-  messagesSent  Message[] @relation("MessagesSent")
+  // Relations
+  messagesSent    Message[] @relation("MessagesSent")
   receivedMessage Message[] @relation("MessagesReceived")
 } 
 
