@@ -19,8 +19,9 @@ export class MailService {
         });
     }
 
+    // sending email verification otp
     public async SendVerifyMail(mailto: string, otp: string) {
-        const html = this.getOtpTemplate().replace(`{{OTP}}`, otp);
+        const html = this.getVerifyEmailOtpTemplate().replace(`{{OTP}}`, otp);
 
         const mail = await this.transporter().sendMail({
             from: this.mailFrom,
@@ -28,20 +29,46 @@ export class MailService {
             subject: 'Email Verification - Chit Chat',
             html,
         });
-        //
-        console.log('logging the message id : ', mail.messageId);
         return mail.messageId;
     }
 
-    //helper --> get otp template
-    private getOtpTemplate(): string {
+    // sending forget password otp
+    public async sendForgetPasswordOtp(mailto: string, otp: string) {
+        const html = this.getForgetPasswordOtpTemplate().replace(
+            `{{OTP}}`,
+            otp,
+        );
+
+        const mail = await this.transporter().sendMail({
+            from: this.mailFrom,
+            to: mailto,
+            subject: 'Password Reset - Chit Chat',
+            html,
+        });
+
+        return mail.messageId;
+    }
+
+    //helper --> get verify_email template
+    private getVerifyEmailOtpTemplate(): string {
         const filePath = path.join(
             process.cwd(),
             'src',
             'templates',
-            'otp.html',
+            'verify_email.html',
         );
         console.log('logging the file path : ', filePath);
+        return fs.readFileSync(filePath, 'utf-8');
+    }
+
+    //helper --> get forget_password template
+    private getForgetPasswordOtpTemplate(): string {
+        const filePath = path.join(
+            process.cwd(),
+            'src',
+            'templates',
+            'forget_password.html',
+        );
         return fs.readFileSync(filePath, 'utf-8');
     }
 }

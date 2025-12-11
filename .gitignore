@@ -1,7 +1,7 @@
 
 # secrets
 src/auth/constants.ts
-dev.db
+./dev.db
 
 
 # compiled output
