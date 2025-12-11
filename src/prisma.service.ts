@@ -6,18 +6,18 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PrismaService extends PrismaClient {
-  constructor(private readonly config: ConfigService) {
-    const adapter = new PrismaPg({
-      connectionString: String(config.get('DATABASE_URL')),
-    });
-    super({ adapter });
-  }
+    constructor(private readonly config: ConfigService) {
+        const adapter = new PrismaPg({
+            connectionString: String(config.get('DATABASE_URL')),
+        });
+        super({ adapter });
+    }
 
-  async onModuleInit() {
-    await this.$connect();
-  }
+    async onModuleInit() {
+        await this.$connect();
+    }
 
-  async onModuleDestroy() {
-    await this.$disconnect();
-  }
+    async onModuleDestroy() {
+        await this.$disconnect();
+    }
 }

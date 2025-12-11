@@ -6,7 +6,7 @@ import { MailService } from 'src/common/mail/mail.service';
 import { OtpService } from 'src/common/otp/otp.service';
 
 @Module({
-  controllers: [RegisterController],
-  providers: [RegisterService, PrismaService, MailService, OtpService],
+    controllers: [RegisterController],
+    providers: [RegisterService, PrismaService, MailService, OtpService],
 })
 export class RegisterModule {}

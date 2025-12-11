@@ -9,17 +9,17 @@ import { ConfigModule } from '@nestjs/config';
 import { RegisterModule } from './register/register.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
-    }),
-    RegisterModule,
-  ],
-  providers: [AuthService, PrismaService, JwtStrategy],
-  controllers: [AuthController],
-  exports: [AuthService],
+    imports: [
+        ConfigModule.forRoot(),
+        PassportModule,
+        JwtModule.register({
+            secret: process.env.JWT_SECRET,
+            signOptions: { expiresIn: '1d' },
+        }),
+        RegisterModule,
+    ],
+    providers: [AuthService, PrismaService, JwtStrategy],
+    controllers: [AuthController],
+    exports: [AuthService],
 })
 export class AuthModule {}

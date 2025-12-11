@@ -6,20 +6,20 @@ import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+    constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
-  postLogin(@Body() userData: LoginUserData) {
-    return this.authService.postLogin(userData);
-  }
+    @Post('login')
+    postLogin(@Body() userData: LoginUserData) {
+        return this.authService.postLogin(userData);
+    }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Req() req: Request) {
-    return this.authService.getProfile(req);
-  }
-  @Get('all')
-  getAll() {
-    return this.authService.getAll();
-  }
+    @UseGuards(JwtAuthGuard)
+    @Get('profile')
+    getProfile(@Req() req: Request) {
+        return this.authService.getProfile(req);
+    }
+    @Get('all')
+    getAll() {
+        return this.authService.getAll();
+    }
 }

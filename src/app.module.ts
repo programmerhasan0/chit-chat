@@ -9,8 +9,8 @@ import configuration from './config/configuration';
 import { PrismaService } from './prisma.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, ChatModule],
-  controllers: [AppController, AuthController],
-  providers: [AppService, PrismaService],
+    imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, ChatModule],
+    controllers: [AppController, AuthController],
+    providers: [AppService, PrismaService],
 })
 export class AppModule {}
