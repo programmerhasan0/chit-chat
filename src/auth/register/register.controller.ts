@@ -9,6 +9,7 @@ import {
 } from 'src/dto/auth.dto';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import type { Request } from 'express';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth/register')
 export class RegisterController {
@@ -36,6 +37,7 @@ export class RegisterController {
         return await this.registerService.postCreatePassword(createPasswordDto);
     }
 
+    @ApiBearerAuth('access_token')
     @UseGuards(JwtAuthGuard)
     @Post('update-profile')
     async postUpdateProfile(
