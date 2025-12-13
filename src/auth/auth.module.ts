@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { RegisterModule } from './register/register.module';
 import { ResetModule } from './reset/reset.module';
+import { SessionService } from 'src/common/session/session.service';
 
 @Module({
     imports: [
@@ -20,7 +21,7 @@ import { ResetModule } from './reset/reset.module';
         RegisterModule,
         ResetModule,
     ],
-    providers: [AuthService, PrismaService, JwtStrategy],
+    providers: [AuthService, PrismaService, JwtStrategy, SessionService],
     controllers: [AuthController],
     exports: [AuthService],
 })

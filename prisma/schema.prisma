@@ -8,62 +8,72 @@ datasource db {
   provider = "postgresql"
 }
 
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
   moduleFormat = "cjs"
 }
 
 // roles
 enum Role {
-  student     @map("student")
-  faculty     @map("faculty")
-  recruiter   @map("recruiter")
-  proPartner  @map("pro partner")
+  student    @map("student")
+  faculty    @map("faculty")
+  recruiter  @map("recruiter")
+  proPartner @map("pro partner")
 }
 
 // gender
 enum Gender {
-  male    @map("male")
-  female  @map("female")
-  other   @map("other")
+  male   @map("male")
+  female @map("female")
+  other  @map("other")
 }
 
-
-
 model User {
-  id      Int @default(autoincrement()) @id
-  email   String @unique
-  name    String
-  role    Role      @default(student)
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String
+  role     Role    @default(student)
   password String?
 
   // OTP verification
-  otp                 String?
-  otpExpire           DateTime?
-  lastOtpRequestedAt  DateTime?
-  hasPassword         Boolean   @default(false)
-  isVerified          Boolean   @default(false)
+  otp                String?
+  otpExpire          DateTime?
+  lastOtpRequestedAt DateTime?
+  hasPassword        Boolean   @default(false)
+  isVerified         Boolean   @default(false)
 
   // Profile Fields
-  gender          Gender?
-  dateOfBirth     DateTime?
-  university      String?
-  
+  gender      Gender?
+  dateOfBirth DateTime?
+  university  String?
+
   // Relations
   messagesSent    Message[] @relation("MessagesSent")
   receivedMessage Message[] @relation("MessagesReceived")
-} 
+  session         Session?
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  jwt       String
+  userAgent String
+  ip        String?
+  createdAt DateTime @default(now())
+  expiredAt DateTime
+
+  @@unique([userId])
+}
 
 model Message {
-  id            Int @default(autoincrement()) @id
-  senderId      Int
-  receiverId    Int
-  content       String
+  id         Int    @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  content    String
 
-    // Relations
-  sender    User  @relation("MessagesSent", fields: [senderId], references: [id])
-  receiver  User  @relation("MessagesReceived", fields: [receiverId], references: [id])
-
+  // Relations
+  sender   User @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver User @relation("MessagesReceived", fields: [receiverId], references: [id])
 }

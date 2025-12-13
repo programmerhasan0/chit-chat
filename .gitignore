@@ -2,6 +2,7 @@
 # secrets
 src/auth/constants.ts
 ./dev.db
+./src/generated/prisma/
 
 
 # compiled output

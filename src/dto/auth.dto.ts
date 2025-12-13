@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
     IsDate,
@@ -74,4 +75,31 @@ export class UpdateProfileDto {
     @Type(() => Date)
     @IsDate({ message: 'date must be valid date.' })
     dob: Date;
+}
+
+// dto for setting password after reset
+export class ResetPasswordDto extends CreateOrChangePasswordDto {
+    @IsNumberString({}, { message: 'OTP must contain only numbers' })
+    @Length(6, 6, { message: 'OTP must be exactly 6 digits' })
+    otp: string;
+}
+
+// dto for login
+export class LoginDto {
+    @ApiProperty({
+        example: 'programmerhasan0@gmail.com',
+        description: 'Email address of the user',
+        type: String,
+    })
+    @IsEmail()
+    email: string;
+
+    @ApiProperty({
+        example: 'StrongP@ssw0rd!',
+        description: 'Password of the user',
+        type: String,
+    })
+    @IsString()
+    @IsNotEmpty()
+    password: string;
 }

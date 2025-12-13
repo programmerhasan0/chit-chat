@@ -1,0 +1,73 @@
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
+import { Session } from 'src/generated/prisma/client';
+import { PrismaService } from 'src/prisma.service';
+
+@Injectable()
+export class SessionService {
+    constructor(private readonly prisma: PrismaService) {}
+
+    //creating a Session
+    public async createSession(
+        userId: number,
+        jwt: string,
+        userAgent: string,
+        ip?: string,
+    ): Promise<Session> {
+        const currentDate = new Date();
+        const expiresAt = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+
+        // checking if a session is already exists
+        const existingSession = await this.prisma.session.findUnique({
+            where: { userId: userId },
+        });
+
+        // check if the session exists and is still valid
+        if (existingSession && existingSession.expiredAt > new Date()) {
+            throw new BadRequestException(
+                'You are already logged in from another device.',
+            );
+        }
+
+        // checking if the session exists and expired, then remvoe it
+        if (existingSession && new Date() > existingSession.expiredAt) {
+            await this.removeSession(userId);
+        }
+
+        return this.prisma.session.create({
+            data: {
+                userId,
+                jwt,
+                userAgent,
+                ip,
+                expiredAt: expiresAt,
+            },
+        });
+    }
+
+    //removing a Session
+    public async removeSession(userId: number) {
+        // since using single device login, so used deleteMany here. however If we allow user to login from multiple devices, then we have to use delete with sessionId and delete a single session whenever we try to logout
+        const removedSession = await this.prisma.session.deleteMany({
+            where: { userId },
+        });
+        if (!removedSession) {
+            throw new NotFoundException('Session not found');
+        }
+    }
+
+    // TODO (programmerhasan0): added functionality to log out with otp....
+
+    //check session validity
+    public async isUserLoggedIn(userId: number): Promise<boolean> {
+        const session = await this.prisma.session.findUnique({
+            where: { userId },
+        });
+
+        if (!session) return false;
+        return session.expiredAt > new Date();
+    }
+}
