@@ -9,7 +9,7 @@ import { User } from 'src/generated/prisma/client';
 import argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { LoginDto } from 'src/dto/auth.dto';
+import { GetProfileDto, LoginDto } from 'src/dto/auth.dto';
 import { SessionService } from 'src/common/session/session.service';
 
 @Injectable()
@@ -89,36 +89,32 @@ export class AuthService {
 
     // service --> get all users (responsible for viewing all users)
     // route --> /auth/all
-    async getAll(): Promise<Omit<User, 'password' | 'hasPassword'>[]> {
-        const users = await this.prisma.user.findMany({
-            select: {
-                id: true,
-                email: true,
-                name: true,
-                role: true,
+    async getAll(): Promise<GetProfileDto[]> {
+        const users = (await this.prisma.user.findMany({
+            omit: {
+                password: true,
                 otp: true,
                 otpExpire: true,
-                isVerified: true,
-                gender: true,
-                dateOfBirth: true,
-                university: true,
                 lastOtpRequestedAt: true,
+                hasPassword: true,
             },
-        });
+        })) as GetProfileDto[];
         return users;
     }
 
-    async getProfile(req: Request): Promise<{
-        id: number | string;
-        email: string;
-        name: string;
-    }> {
+    async getProfile(req: Request): Promise<GetProfileDto> {
         const userFromClient = req.user;
 
-        const userFromDb = await this.prisma.user.findUnique({
+        const userFromDb = (await this.prisma.user.findUnique({
             where: { id: userFromClient?.id },
-            select: { id: true, name: true, email: true },
-        });
+            omit: {
+                password: true,
+                otp: true,
+                otpExpire: true,
+                lastOtpRequestedAt: true,
+                hasPassword: true,
+            },
+        })) as GetProfileDto;
 
         if (userFromDb?.id) {
             return userFromDb;

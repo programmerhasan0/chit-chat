@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+    IsBoolean,
     IsDate,
     IsEmail,
     IsEnum,
     IsNotEmpty,
+    IsNumber,
     IsNumberString,
     IsString,
     Length,
@@ -16,12 +18,15 @@ import { Gender, Role } from 'src/generated/prisma/enums';
 
 // dto for user registration
 export class RegisterUserDto {
+    @ApiProperty({ name: 'email', example: 'programmerhasan0@gmail.com' })
     @IsEmail()
     email: string;
 
+    @ApiProperty({ name: 'name', example: 'Md H Hasan' })
     @IsNotEmpty({ message: 'name is required' })
     name: string;
 
+    @ApiProperty({ name: 'role', enum: Role, example: Role.student })
     @IsEnum(Role)
     role: Role;
 }
@@ -102,4 +107,41 @@ export class LoginDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+}
+
+// dto for successful profile
+export class GetProfileDto {
+    @ApiProperty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty()
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @ApiProperty()
+    @IsEnum(Role)
+    role: Role;
+
+    @ApiProperty()
+    @IsBoolean()
+    isVerified: boolean;
+
+    @ApiProperty()
+    @IsEnum(Gender)
+    gender: Gender;
+
+    @ApiProperty()
+    @IsDate()
+    dateOfBirth: Date;
+
+    @ApiProperty()
+    @IsString()
+    university: string;
 }

@@ -11,8 +11,12 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import type { Request } from 'express';
-import { LoginDto } from 'src/dto/auth.dto';
-import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { LoginDto, GetProfileDto } from 'src/dto/auth.dto';
+import {
+    ApiBearerAuth,
+    ApiOkResponse,
+    ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -30,6 +34,7 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access_token')
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @ApiOkResponse({ description: 'User Profile', type: GetProfileDto })
     @Get('profile')
     getProfile(@Req() req: Request) {
         return this.authService.getProfile(req);
