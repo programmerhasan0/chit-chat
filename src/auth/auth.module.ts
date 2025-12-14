@@ -11,6 +11,7 @@ import { ResetModule } from './reset/reset.module';
 import { SessionService } from 'src/common/session/session.service';
 import { OtpService } from 'src/common/otp/otp.service';
 import { MailService } from 'src/common/mail/mail.service';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
     imports: [
@@ -22,6 +23,22 @@ import { MailService } from 'src/common/mail/mail.service';
         }),
         RegisterModule,
         ResetModule,
+        RouterModule.register([
+            {
+                path: 'auth',
+                module: AuthModule,
+                children: [
+                    {
+                        path: 'register',
+                        module: RegisterModule,
+                    },
+                    {
+                        path: 'reset',
+                        module: ResetModule,
+                    },
+                ],
+            },
+        ]),
     ],
     providers: [
         AuthService,

@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import type { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
-@Controller('auth/register')
+@Controller()
 export class RegisterController {
     constructor(private readonly registerService: RegisterService) {}
 

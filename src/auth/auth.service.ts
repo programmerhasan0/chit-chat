@@ -42,7 +42,7 @@ export class AuthService {
 
         // checking if the user exists or not
         if (!user) {
-            throw new BadRequestException('User not found');
+            throw new BadRequestException('user or password is incorrect.');
         }
 
         // checking if the user is verified or not
@@ -67,7 +67,7 @@ export class AuthService {
 
         // unauthorized for wrong password
         if (!isPasswordMatch) {
-            throw new UnauthorizedException('Wrong Password');
+            throw new UnauthorizedException('user or password is incorrect.');
         }
 
         // checking if the users is already logged from another device or not.

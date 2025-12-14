@@ -20,7 +20,7 @@ interface AuthenticatedSocket extends Socket {
     };
 }
 
-@WebSocketGateway(3002)
+@WebSocketGateway(3002, { cors: '*' })
 export class ChatGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

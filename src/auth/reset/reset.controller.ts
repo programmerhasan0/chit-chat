@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { ResetService } from './reset.service';
 import { ResendOtpDto, ResetPasswordDto, VerifyOtpDto } from 'src/dto/auth.dto';
 
-@Controller('auth/reset')
+@Controller()
 export class ResetController {
     constructor(private readonly resetService: ResetService) {}
     @Post('get-otp')

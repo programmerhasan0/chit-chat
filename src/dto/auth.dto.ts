@@ -78,7 +78,7 @@ export class CreateOrChangePasswordDto {
 
     @ApiProperty({
         name: 'password',
-        example: 'StrongP@ssw0rd!1',
+        example: 'Softvence@123',
         description:
             'a string contains mimimum 8 characters, at least 1 uppercase, 1 lowsercase, 1 number and 1 special character.',
     })
@@ -95,7 +95,7 @@ export class CreateOrChangePasswordDto {
 
     @ApiProperty({
         name: 'confirmPassword',
-        example: 'StrongP@ssw0rd!1',
+        example: 'Softvence@123',
         description: 'similar and exact match of the password field.',
     })
     @IsString()
@@ -137,6 +137,11 @@ export class UpdateProfileDto {
 
 // dto for setting password after reset
 export class ResetPasswordDto extends CreateOrChangePasswordDto {
+    @ApiProperty({
+        name: 'otp',
+        example: '123456',
+        description: 'a exact 6 digit numbers only value',
+    })
     @IsNumberString({}, { message: 'OTP must contain only numbers' })
     @Length(6, 6, { message: 'OTP must be exactly 6 digits' })
     otp: string;
@@ -153,7 +158,7 @@ export class LoginDto {
     email: string;
 
     @ApiProperty({
-        example: 'StrongP@ssw0rd!1',
+        example: 'Softvence@123',
         description: 'Password of the user',
         type: String,
     })
