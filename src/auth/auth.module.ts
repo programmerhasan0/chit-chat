@@ -26,7 +26,6 @@ import { RouterModule } from '@nestjs/core';
         RouterModule.register([
             {
                 path: 'auth',
-                module: AuthModule,
                 children: [
                     {
                         path: 'register',

@@ -113,8 +113,6 @@ export class SessionService {
 
         if (!session) throw new NotFoundException('No session found');
 
-        if (!session.otp) throw new NotFoundException('No session found.');
-
         return session;
     }
 }

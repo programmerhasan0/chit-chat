@@ -35,11 +35,12 @@ export class AuthController {
     ) {
         return this.authService.postLogin(loginDto, userAgent, ip);
     }
-
+k
     @Post('request-logout-otp')
     async postRequestRemoveDeviceOtp(
         @Body() requestRemoveDeviceOtpDto: RequestRemoveDeviceOtpDto,
     ) {
+        console.log('hitting here with dto:', requestRemoveDeviceOtpDto);
         return this.authService.postGetRemoveDeviceOtp(
             requestRemoveDeviceOtpDto,
         );

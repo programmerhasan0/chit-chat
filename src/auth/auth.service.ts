@@ -174,8 +174,10 @@ export class AuthService {
             removeDeviceDto.userId,
         );
 
+        if (!session.otp) throw new NotFoundException('Session not found.');
+
         const isOtpValid = await argon2.verify(
-            session.otp as string,
+            session.otp,
             removeDeviceDto.otp,
         );
 
