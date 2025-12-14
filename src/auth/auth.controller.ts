@@ -11,7 +11,12 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import type { Request } from 'express';
-import { LoginDto, GetProfileDto } from 'src/dto/auth.dto';
+import {
+    LoginDto,
+    GetProfileDto,
+    RequestRemoveDeviceOtpDto,
+    RemoveDeviceDto,
+} from 'src/dto/auth.dto';
 import {
     ApiBearerAuth,
     ApiOkResponse,
@@ -25,10 +30,24 @@ export class AuthController {
     @Post('login')
     postLogin(
         @Body() loginDto: LoginDto,
-        // @Headers('user-agent') userAgent: string,
+        @Headers('user-agent') userAgent: string,
         @Ip() ip?: string,
     ) {
-        return this.authService.postLogin(loginDto, 'unknown', ip);
+        return this.authService.postLogin(loginDto, userAgent, ip);
+    }
+
+    @Post('request-logout-otp')
+    async postRequestRemoveDeviceOtp(
+        @Body() requestRemoveDeviceOtpDto: RequestRemoveDeviceOtpDto,
+    ) {
+        return this.authService.postGetRemoveDeviceOtp(
+            requestRemoveDeviceOtpDto,
+        );
+    }
+
+    @Post('remove-device')
+    async postRemoveDevice(@Body() removeDeviceDto: RemoveDeviceDto) {
+        return this.authService.postRemoveDevice(removeDeviceDto);
     }
 
     @UseGuards(JwtAuthGuard)

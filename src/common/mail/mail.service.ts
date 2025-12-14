@@ -34,15 +34,26 @@ export class MailService {
 
     // sending forget password otp
     public async sendForgetPasswordOtp(mailto: string, otp: string) {
-        const html = this.getForgetPasswordOtpTemplate().replace(
-            `{{OTP}}`,
-            otp,
-        );
+        const html = this.getMultiPurposeOtpTemplate().replace(`{{OTP}}`, otp);
 
         const mail = await this.transporter().sendMail({
             from: this.mailFrom,
             to: mailto,
             subject: 'Password Reset - Chit Chat',
+            html,
+        });
+
+        return mail.messageId;
+    }
+
+    // sending remove device otp
+    public async sendRemoveDeviceOtp(mailto: string, otp: string) {
+        const html = this.getMultiPurposeOtpTemplate().replace(`{{OTP}}`, otp);
+
+        const mail = await this.transporter().sendMail({
+            from: this.mailFrom,
+            to: mailto,
+            subject: 'Remove Device Request - Chit Chat',
             html,
         });
 
@@ -62,12 +73,12 @@ export class MailService {
     }
 
     //helper --> get forget_password template
-    private getForgetPasswordOtpTemplate(): string {
+    private getMultiPurposeOtpTemplate(): string {
         const filePath = path.join(
             process.cwd(),
             'src',
             'templates',
-            'forget_password.html',
+            'multipurpose_otp.html',
         );
         return fs.readFileSync(filePath, 'utf-8');
     }

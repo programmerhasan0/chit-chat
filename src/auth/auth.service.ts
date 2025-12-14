@@ -1,16 +1,23 @@
 import {
     BadRequestException,
     Injectable,
+    InternalServerErrorException,
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { User } from 'src/generated/prisma/client';
 import argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { GetProfileDto, LoginDto } from 'src/dto/auth.dto';
+import {
+    GetProfileDto,
+    LoginDto,
+    RemoveDeviceDto,
+    RequestRemoveDeviceOtpDto,
+} from 'src/dto/auth.dto';
 import { SessionService } from 'src/common/session/session.service';
+import { OtpService } from 'src/common/otp/otp.service';
+import { MailService } from 'src/common/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +25,8 @@ export class AuthService {
         private readonly prisma: PrismaService,
         private readonly jwtService: JwtService,
         private readonly sessionService: SessionService,
+        private readonly otp: OtpService,
+        private readonly mail: MailService,
     ) {}
 
     // service --> Login (responsible for user login)
@@ -64,9 +73,10 @@ export class AuthService {
         // checking if the users is already logged from another device or not.
         const isLoggedIn = await this.sessionService.isUserLoggedIn(user.id);
         if (isLoggedIn) {
-            throw new BadRequestException(
-                'User already logged in from another device.',
-            );
+            throw new BadRequestException({
+                message: 'Already logged in into another device.',
+                info: isLoggedIn,
+            });
         }
 
         // actions for login
@@ -121,6 +131,67 @@ export class AuthService {
         } else {
             throw new NotFoundException('User Not Found');
         }
+    }
+
+    async postGetRemoveDeviceOtp(
+        requestRemoveDeviceOtpDto: RequestRemoveDeviceOtpDto,
+    ): Promise<{ message: string }> {
+        const session = await this.sessionService.findSession(
+            requestRemoveDeviceOtpDto.id,
+            requestRemoveDeviceOtpDto.userId,
+        );
+
+        // generate otp and send via email
+        const otp = await this.otp.genOtp();
+
+        const updateSessionWithOtp = await this.sessionService.asignOtp(
+            otp.otpHash,
+            otp.expire,
+            session.id,
+            session.userId,
+        );
+
+        // checking if otp assignment is successful or not.
+        if (!updateSessionWithOtp) throw new InternalServerErrorException();
+
+        const mailSent = await this.mail.sendRemoveDeviceOtp(
+            session.user.email,
+            otp.otp,
+        );
+
+        if (!mailSent) throw new InternalServerErrorException();
+        return {
+            message:
+                'An OTP has been sent to your email for remove device request.',
+        };
+    }
+
+    async postRemoveDevice(
+        removeDeviceDto: RemoveDeviceDto,
+    ): Promise<{ message: string }> {
+        const session = await this.sessionService.findSession(
+            removeDeviceDto.id,
+            removeDeviceDto.userId,
+        );
+
+        const isOtpValid = await argon2.verify(
+            session.otp as string,
+            removeDeviceDto.otp,
+        );
+
+        if (!isOtpValid) throw new BadRequestException('Invalid OTP');
+
+        if (isOtpValid && new Date() > session.otpExpire!) {
+            throw new BadRequestException('OTP expired');
+        }
+
+        const removedDevice = await this.sessionService.removeSession(
+            session.userId,
+        );
+
+        if (!removedDevice) throw new InternalServerErrorException();
+
+        return { message: 'Device removed successfully.' };
     }
 
     async postLogout(req: Request): Promise<{ message: string }> {

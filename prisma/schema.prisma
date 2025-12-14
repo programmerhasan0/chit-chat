@@ -64,6 +64,10 @@ model Session {
   createdAt DateTime @default(now())
   expiredAt DateTime
 
+  // otp related fields
+  otp       String?
+  otpExpire DateTime?
+
   @@unique([userId])
 }
 

@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { RegisterModule } from './register/register.module';
 import { ResetModule } from './reset/reset.module';
 import { SessionService } from 'src/common/session/session.service';
+import { OtpService } from 'src/common/otp/otp.service';
+import { MailService } from 'src/common/mail/mail.service';
 
 @Module({
     imports: [
@@ -21,7 +23,14 @@ import { SessionService } from 'src/common/session/session.service';
         RegisterModule,
         ResetModule,
     ],
-    providers: [AuthService, PrismaService, JwtStrategy, SessionService],
+    providers: [
+        AuthService,
+        PrismaService,
+        JwtStrategy,
+        SessionService,
+        OtpService,
+        MailService,
+    ],
     controllers: [AuthController],
     exports: [AuthService],
 })

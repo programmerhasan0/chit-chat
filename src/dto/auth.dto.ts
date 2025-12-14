@@ -44,6 +44,7 @@ export class VerifyOtpDto {
     })
     @IsEmail()
     email: string;
+
     @ApiProperty({
         name: 'otp',
         example: '123456',
@@ -196,4 +197,36 @@ export class GetProfileDto {
     @ApiProperty()
     @IsString()
     university: string;
+}
+
+// dto for logout with Otp
+export class RequestRemoveDeviceOtpDto {
+    @ApiProperty({
+        name: 'id',
+        example: 1,
+        description: 'Id of the particular session',
+    })
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({
+        name: 'userId',
+        example: 3,
+        description: 'Id of that particular user associated with the session.',
+    })
+    @IsNumber()
+    userId: number;
+}
+
+// dto for removing device
+
+export class RemoveDeviceDto extends RequestRemoveDeviceOtpDto {
+    @ApiProperty({
+        name: 'otp',
+        example: '123456',
+        description: 'a exact 6 digit numbers only value',
+    })
+    @IsNumberString({}, { message: 'OTP must contain only numbers' })
+    @Length(6, 6, { message: 'OTP must be exactly 6 digits' })
+    otp: string;
 }
